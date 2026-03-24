@@ -462,25 +462,54 @@
         </div>
     </footer>
 
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Simple Form Submission Feedback
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = form.querySelector('input').value;
-                const btn = form.querySelector('button');
-                const originalText = btn.innerText;
-                
-                btn.innerText = '登記成功！';
-                btn.style.background = '#00c853';
-                
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://gfwafsljbgkrslgrmoar.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdmd2Fmc2xqYmdrcnNsZ3Jtb2FyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTAwNzQsImV4cCI6MjA4OTkyNjA3NH0.6KN1kc7otRtIQs6MGbu6E4yb2Dcfyz7E55qikJj1Zlo';
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Form Submission Logic
+        async function handleFormSubmit(event, role) {
+            event.preventDefault();
+            const form = event.target;
+            const emailInput = form.querySelector('input');
+            const email = emailInput.value;
+            const submitBtn = form.querySelector('button');
+            const originalText = submitBtn.innerText;
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = '正在登記中...';
+
+            try {
+                const { error } = await supabaseClient
+                    .from('fancher_leads')
+                    .insert([{ email, role }]);
+
+                if (error) throw error;
+
+                // Success Feedback
+                submitBtn.innerText = '登記成功！';
+                submitBtn.style.background = '#00c853';
+                form.reset();
+            } catch (err) {
+                console.error('Error inserting to Supabase:', err);
+                submitBtn.innerText = '登記失敗 (請檢查 SQL 是否已執行)';
+                submitBtn.style.background = '#ff5252';
+            } finally {
                 setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.background = '';
-                    form.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalText;
+                    submitBtn.style.background = '';
                 }, 3000);
-            });
-        });
+            }
+        }
+
+        // Attach listeners
+        document.getElementById('organizer-form').addEventListener('submit', (e) => handleFormSubmit(e, 'organizer'));
+        document.getElementById('carpooler-form').addEventListener('submit', (e) => handleFormSubmit(e, 'carpooler'));
     </script>
 </body>
 </html>
