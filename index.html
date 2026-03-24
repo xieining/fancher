@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancher | 全台首創拼車安全防護服務</title>
+    <meta name="description" content="Fancher 為您提供最安全的拼車環境，防範詐騙，實名認證，讓每一趟行程都安心愉快。">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #9155ff;
+            --secondary-color: #7c3aed;
+            --bg-dark: #0a0b1e;
+            --text-light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --accent-gradient: linear-gradient(135deg, #9155ff, #c084fc);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            background: rgba(10, 11, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('assets/images/hero_bg.png') no-repeat center center/cover;
+            padding-top: 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(10, 11, 30, 0.4) 0%, rgba(10, 11, 30, 1) 90%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding: 3rem;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 20px -5px rgba(124, 77, 255, 0.5);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -10px rgba(124, 77, 255, 0.6);
+        }
+
+        /* Service Cards Section */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            padding: 2.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(124, 77, 255, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            opacity: 0.7;
+        }
+
+        /* Event Section */
+        .event-section {
+            background: linear-gradient(rgba(10,11,30,0.8), rgba(10,11,30,0.8)), url('assets/images/hero_bg.png') center/cover;
+            padding: 80px 0;
+            border-radius: 40px;
+            margin: 50px 0;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(124, 77, 255, 0.2);
+            color: var(--primary-color);
+            border-radius: 100px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* CMS/Signup Section */
+        .forms-section {
+            padding: 100px 0;
+            background: radial-gradient(circle at top right, rgba(124, 77, 255, 0.1), transparent 40%);
+        }
+
+        .forms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .form-card {
+            padding: 3rem;
+            background: #111226;
+            border-radius: 32px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-gradient);
+        }
+
+        .form-card h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-card p {
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        input {
+            width: 100%;
+            padding: 1.25rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        footer {
+            padding: 50px 0;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .forms-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .hero-content {
+                padding: 1.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Fancher.</div>
+                <div class="nav-links">
+                    <a href="#intro">服務介紹</a>
+                    <a href="#event">專屬活動</a>
+                    <a href="#signup">開始出發</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>守護每一哩行程<br><span>拼車安全防詐騙</span></h1>
+                <p>全台首創拼車實名認證與安全監控系統。不管是主揪還是乘客，Fancher 讓您的拼車體驗不再與風險為伍。</p>
+                <a href="#signup" class="btn">立即加入行列</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section container" id="intro">
+        <h2 class="section-title">為什麼選擇 Fancher？</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">🛡️</div>
+                <h3>實名認證機制</h3>
+                <p>所有使用者皆須經過嚴格的身份驗證，確保出現在車上的每一位都是真實可信的夥伴。</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🚫</div>
+                <h3>智能防詐系統</h3>
+                <p>內建行為分析引擎，即時識別異常拼車請求，將詐騙風險阻絕於行程開始之前。</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>行程雲端監控</h3>
+                <p>行程中提供給緊急聯絡人的即時位置分享與異常停留警示，守護安全不間斷。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Preview Section -->
+    <section class="container" style="padding-bottom: 100px;">
+        <div class="grid" style="align-items: center;">
+            <div style="text-align: left;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">一手掌握安全行程</h2>
+                <p style="opacity: 0.8; margin-bottom: 1.5rem;">透過 Fancher App，您可以隨時查看駕駛評分、車輛資訊，並享有即時防護功能。簡單的操作介面，複雜的安全後台。</p>
+                <ul style="list-style: none; opacity: 0.7;">
+                    <li style="margin-bottom: 0.5rem;">✓ 驗證駕駛標章</li>
+                    <li style="margin-bottom: 0.5rem;">✓ 即時路況追蹤</li>
+                    <li>✓ 一鍵緊急求救</li>
+                </ul>
+            </div>
+            <div style="text-align: center;">
+                <img src="assets/images/app_mockup.png" alt="App Mockup" style="max-width: 100%; border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="event">
+        <div class="event-section">
+            <span class="badge">期間限定專頁</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">【春季安全拼車季】</h2>
+            <p style="font-size: 1.25rem; opacity: 0.8; margin-bottom: 2rem;">
+                活動時間：2026/03/27 (五) - 03/30 (一)<br>
+                在活動期間完成首趟認證行程，即享安全保險全面升級！
+            </p>
+            <a href="#signup" class="btn">領取活動優惠</a>
+        </div>
+    </section>
+
+    <section class="forms-section" id="signup">
+        <div class="container">
+            <h2 class="section-title">立即卡位，搶先體驗</h2>
+            <div class="forms-grid">
+                <!-- Organizer Form -->
+                <div class="form-card">
+                    <span class="badge">Organizer</span>
+                    <h2>我是主揪</h2>
+                    <p>我想建立安全的拼車團，邀請志同道合的乘客，並享受 Fancher 的全面保護。</p>
+                    <form id="organizer-form">
+                        <div class="input-group">
+                            <label>您的電子郵件</label>
+                            <input type="email" placeholder="example@email.com" required>
+                        </div>
+                        <button type="submit" class="submit-btn">主揪搶先登記</button>
+                    </form>
+                </div>
+
+                <!-- Carpooler Form -->
+                <div class="form-card">
+                    <span class="badge">Carpooler</span>
+                    <h2>我是拼車族</h2>
+                    <p>我想尋找受保護的行程，加入經過驗證的車次，讓每次長途移動都安心無虞。</p>
+                    <form id="carpooler-form">
+                        <div class="input-group">
+                            <label>您的電子郵件</label>
+                            <input type="email" placeholder="example@email.com" required>
+                        </div>
+                        <button type="submit" class="submit-btn">乘客搶先登記</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Fancher Taiwan. All Rights Reserved. 拼車安全防護專家</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Form Submission Feedback
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = form.querySelector('input').value;
+                const btn = form.querySelector('button');
+                const originalText = btn.innerText;
+                
+                btn.innerText = '登記成功！';
+                btn.style.background = '#00c853';
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = '';
+                    form.reset();
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
