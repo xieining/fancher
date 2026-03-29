@@ -325,6 +325,119 @@
             border-top: 1px solid var(--glass-border);
         }
 
+        /* Carousel Styles - Refined Swipe Screen */
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            gap: 0; /* Full screens */
+            width: 100%;
+            scrollbar-width: none; /* Hide for Firefox */
+        }
+        .carousel-track::-webkit-scrollbar {
+            display: none; /* Hide for Chrome/Safari */
+        }
+        .carousel-container {
+            overflow: hidden;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--glass-border);
+        }
+        .carousel-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+        .carousel-slide:hover img {
+            transform: scale(1.03);
+            opacity: 1;
+        }
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(10,11,30,0.95));
+            padding: 3rem;
+            text-align: left;
+            z-index: 5;
+        }
+        .carousel-caption h3 {
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        .carousel-caption p {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            z-index: 10;
+        }
+        .carousel-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(145, 85, 255, 0.4);
+        }
+        .carousel-btn.prev {
+            left: 20px;
+        }
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        /* Swipe indicator dot bar */
+        .swipe-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 6;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+        }
+        .dot.active {
+            background: var(--primary-color);
+            width: 24px;
+            border-radius: 10px;
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -363,59 +476,86 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>守護每一哩行程<br><span>拼車安全防詐騙</span></h1>
-                <p>全台首創拼車實名認證與安全監控系統。不管是主揪還是乘客，Fancher 讓您的拼車體驗不再與風險為伍。</p>
-                <a href="#signup" class="btn">立即加入行列</a>
+                <div class="badge" style="background: rgba(0, 200, 83, 0.2); color: #00e676; margin-bottom: 0.5rem;">🔒 端對端加密已啟動</div>
+                <h1>守護每一次追星<br><span>拼車安全防詐騙</span></h1>
+                <p>全台首創「三層式安全認證」拼車平台。Fancher 結合實名認證、行為監控與動態加密，確保每位主揪與乘客都在安全的數位憑證保護下前行。</p>
+                <a href="#signup" class="btn">立即獲得安全憑證</a>
             </div>
         </div>
     </section>
 
-    <section class="section container" id="intro">
-        <h2 class="section-title">為什麼選擇 Fancher？</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-icon">🛡️</div>
-                <h3>實名認證機制</h3>
-                <p>所有使用者皆須經過嚴格的身份驗證，確保出現在車上的每一位都是真實可信的夥伴。</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🚫</div>
-                <h3>智能防詐系統</h3>
-                <p>內建行為分析引擎，即時識別異常拼車請求，將詐騙風險阻絕於行程開始之前。</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">📍</div>
-                <h3>行程雲端監控</h3>
-                <p>行程中提供給緊急聯絡人的即時位置分享與異常停留警示，守護安全不間斷。</p>
-            </div>
-        </div>
-    </section>
+    <!-- Event Photo Carousel Section -->
+    <section class="section container" id="gallery">
+        <h2 class="section-title">最新活動與花絮</h2>
+        <div class="carousel-container" style="position: relative; max-width: 100%; margin: 0 auto; border-radius: 20px;">
+            <div class="carousel-track" id="carousel-track">
+                <!-- Photo 1: EXO Taipei -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1200" alt="EXO EXhOrizon">
+                    <div class="carousel-caption">
+                        <h3>5/09 - 5/10 EXO 台北小巨蛋</h3>
+                        <p>[EXhOrizon] 巡演（台北站）</p>
+                    </div>
+                </div>
 
-    <!-- App Preview Section -->
-    <section class="container" style="padding-bottom: 100px;">
-        <div class="grid" style="align-items: center;">
-            <div style="text-align: left;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">一手掌握安全行程</h2>
-                <p style="opacity: 0.8; margin-bottom: 1.5rem;">透過 Fancher App，您可以隨時查看駕駛評分、車輛資訊，並享有即時防護功能。簡單的操作介面，複雜的安全後台。</p>
-                <ul style="list-style: none; opacity: 0.7;">
-                    <li style="margin-bottom: 0.5rem;">✓ 驗證駕駛標章</li>
-                    <li style="margin-bottom: 0.5rem;">✓ 即時路況追蹤</li>
-                    <li>✓ 一鍵緊急求救</li>
-                </ul>
+                <!-- Photo 2: ITZY Kaohsiung -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=1200" alt="ITZY TUNNEL VISION">
+                    <div class="carousel-caption">
+                        <h3>6/27 ITZY 高雄巨蛋</h3>
+                        <p>舉行世界巡迴 [TUNNEL VISION]</p>
+                    </div>
+                </div>
+
+                <!-- Photo 3: EXO Kaohsiung -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1470229722913-7c090be5c520?auto=format&fit=crop&q=80&w=1200" alt="EXO Kaohsiung">
+                    <div class="carousel-caption">
+                        <h3>7/18 EXO 高雄巨蛋</h3>
+                        <p>加場轉戰，與您再續前緣</p>
+                    </div>
+                </div>
+
+                <!-- Photo 4: IVE Taipei -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=1200" alt="IVE Taipei">
+                    <div class="carousel-caption">
+                        <h3>9/11 - 9/12 IVE 台北小巨蛋</h3>
+                        <p>Dive們準備好登上小巨蛋了嗎！</p>
+                    </div>
+                </div>
+
+                <!-- Photo 5: BTS Kaohsiung -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=1200" alt="BTS Kaohsiung">
+                    <div class="carousel-caption">
+                        <h3>11/19 - 11/22 BTS (防彈少年團) 高雄</h3>
+                        <p>備受矚目：預計於高雄舉行回歸後的世界巡演</p>
+                    </div>
+                </div>
             </div>
-            <div style="text-align: center;">
-                <img src="assets/images/app_mockup.png" alt="App Mockup" style="max-width: 100%; border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);">
+            
+            <!-- Indicator Dots -->
+            <div class="swipe-hint" id="carousel-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
+
+            <button class="carousel-btn prev" onclick="document.getElementById('carousel-track').scrollBy({left: -document.getElementById('carousel-track').offsetWidth, behavior: 'smooth'})">❮</button>
+            <button class="carousel-btn next" onclick="document.getElementById('carousel-track').scrollBy({left: document.getElementById('carousel-track').offsetWidth, behavior: 'smooth'})">❯</button>
         </div>
     </section>
 
     <section class="container" id="event">
         <div class="event-section">
-            <span class="badge">期間限定專頁</span>
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">【春季安全拼車季】</h2>
+            <span class="badge">第一次活動</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">【EXO 台北場 拼車祭】</h2>
             <p style="font-size: 1.25rem; opacity: 0.8; margin-bottom: 2rem;">
-                活動時間：2026/03/27 (五) - 03/30 (一)<br>
-                在活動期間完成首趟認證行程，即享安全保險全面升級！
+                活動時間：2026/05/09 (六) - 05/10 (日)<br>
+                EXO 台北小巨蛋站！首趟認證，安全保險全面升級！
             </p>
             <a href="#signup" class="btn">領取活動優惠</a>
         </div>
@@ -485,18 +625,18 @@
 
             try {
                 const { error } = await supabaseClient
-                    .from('fancher_leads')
+                    .from('fancher')
                     .insert([{ email, role }]);
 
                 if (error) throw error;
 
                 // Success Feedback
-                submitBtn.innerText = '登記成功！';
+                submitBtn.innerText = '登記成功！已存至 Supabase';
                 submitBtn.style.background = '#00c853';
                 form.reset();
             } catch (err) {
                 console.error('Error inserting to Supabase:', err);
-                submitBtn.innerText = '登記失敗 (請檢查 SQL 是否已執行)';
+                submitBtn.innerText = '登記失敗 (請確認資料表 fancher 是否存在)';
                 submitBtn.style.background = '#ff5252';
             } finally {
                 setTimeout(() => {
@@ -505,6 +645,19 @@
                     submitBtn.style.background = '';
                 }, 3000);
             }
+        }
+
+        // Carousel Dot Interaction
+        const track = document.getElementById('carousel-track');
+        const dots = document.querySelectorAll('.dot');
+        
+        if (track) {
+            track.addEventListener('scroll', () => {
+                const index = Math.round(track.scrollLeft / track.offsetWidth);
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            });
         }
 
         // Attach listeners
